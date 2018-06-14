@@ -45,9 +45,9 @@ class Memory(RingBuffer):
 
     def get_batch(self, k=32, include_last=False):
         if include_last:
-            ind = random.sample(range(4, len(self)), k - 1) + [self.end]
+            ind = random.sample(range(5, len(self)), k - 1) + [self.end]
         else:
-            ind = random.sample(range(4, len(self)), k)
+            ind = random.sample(range(5, len(self)), k)
         states = [self.get_state(index=i) for i in ind]
         next_states = [self.get_state(index=i + 1) for i in ind]
 
