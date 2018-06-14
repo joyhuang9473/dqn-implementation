@@ -174,16 +174,12 @@ class DQNAgent:
             stddev=self._config['var_init_stddev'],
         )
 
-    def get_recent_state(self, current_observation):
-        # append current observation with last 3 observations
-        state = self.memory.get_state(index=None, n=3)
-        # (h,w,c)
-        current_observation = np.stack([current_observation], axis=2)
-        state = np.append(state, current_observation, axis=2)
-        # (n,h,w,c)
-        state = np.stack([state], axis=0)
-
+    def get_recent_state(self, current_observation, n=3):
+        # append current observation with last n observations
+        state = self.memory.get_recent_state(current_observation, n=3)
         state = normalized(state)
+        # (n,h,w,c)
+        state= np.stack([state], axis=0)
 
         return state
 
