@@ -252,6 +252,7 @@ class DQNAgent:
             self._tf_session,
             filepath,
             global_step=step,
+            max_to_keep=None,
         )
         print('checkpoint saved at {}'.format(save_path))
 
