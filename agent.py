@@ -28,7 +28,7 @@ class DQNAgent:
             self._tf_session = tf.Session()
             self._tf_session.run(tf.global_variables_initializer())
 
-            self._saver = tf.train.Saver()
+            self._saver = tf.train.Saver(max_to_keep=None)
 
         self.memory = Memory(self._config['replay_memory_size'])
 
@@ -252,7 +252,6 @@ class DQNAgent:
             self._tf_session,
             filepath,
             global_step=step,
-            max_to_keep=None,
         )
         print('checkpoint saved at {}'.format(save_path))
 
