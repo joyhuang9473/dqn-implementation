@@ -52,6 +52,8 @@ config = {
     'validation_size': 500,
     'evaluation_exploration': 0.05,
 }
+game_name = 'BreakoutDeterministic-v4'
+env = gym.make(game_name)
 
 def get_epsilon(config, step):
     rss = config['replay_start_size']
@@ -67,9 +69,16 @@ def get_epsilon(config, step):
 
     return epsilon
 
+def reset_random_env(random_steps=30):
+    _ = env.reset()
+
+    for i in range(random_steps):
+        action = env.action_space.sample()
+        next_observation, reward, episode_done, info = env.step(action)
+
+    return next_observation
+
 def main(config, max_num_of_steps, max_num_of_episodes, load_model, save_model, load_memory, save_memory, log_path):
-    game_name = 'BreakoutDeterministic-v4'
-    env = gym.make(game_name)
     agent = DQNAgent(config)
 
     init_frame_nums = config['minibatch_size']+config['agent_history_length']
@@ -106,7 +115,9 @@ def main(config, max_num_of_steps, max_num_of_episodes, load_model, save_model, 
             ):
                 episode += 1
                 episode_done = False
-                next_observation = preprocess_observation(env.reset())
+
+                next_observation = reset_random_env()
+                next_observation = preprocess_observation(next_observation)
 
                 rewards_per_episode.append(0)
 
