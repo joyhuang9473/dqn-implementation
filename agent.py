@@ -259,4 +259,6 @@ class DQNAgent:
         self.memory.load(filepath)
 
     def save_memory(self, filepath, step):
-        self.memory.save(filepath + '.step-%d-to-%d' % (step-len(self.memory), step))
+        save_path = filepath + '.step-%d' % step
+        self.memory.save(save_path)
+        print('memory saved at {}'.format(save_path))
