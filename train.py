@@ -81,8 +81,6 @@ def reset_random_env(random_steps=30):
 def main(config, max_num_of_steps, max_num_of_episodes, load_model, save_model, load_memory, save_memory, log_path):
     agent = DQNAgent(config)
 
-    init_frame_nums = config['minibatch_size']+config['agent_history_length']
-
     with agent.graph.as_default():
         if load_model:
             step = agent.load_model(load_model)
@@ -124,7 +122,7 @@ def main(config, max_num_of_steps, max_num_of_episodes, load_model, save_model, 
                 while not episode_done:
                     observation = next_observation
 
-                    if len(agent.memory) < init_frame_nums:
+                    if len(agent.memory) < config['replay_start_size']:
                         # init replay memory
                         action = env.action_space.sample()
 
